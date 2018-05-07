@@ -24,7 +24,7 @@ local scene = composer.newScene( sceneName )
 
 -- The local variables for this scene
 local companyLogo
-local scrollXSpeed = 5
+local scrollXSpeed = 6
 local scrollYSpeed = 1
 
 -----------------------------------------------------------------------------------------------
@@ -75,6 +75,27 @@ function scene:create( event )
 end -- function scene:create( event )
 
 --------------------------------------------------------------------------------------------
+-- TEXT
+--------------------------------------------------------------------------------------------
+--Display phrase on the screen
+areaText = display.newText("FAZ GAMES", 25, 30, Arial, textSize)
+areaText.x = 300
+areaText.y = 150
+scrollSpeed = 5
+textSize =
+--set the text color
+areaText:setTextColor(65, 150, 175)
+
+local function MovedareaText(event)
+      --add the scroll speed to the x-value of text
+      areaText.x = areaText.x + scrollSpeed
+      -- change the transparency of the text every time it moves so that it fades in
+      areaText.alpha = areaText.alpha + 0.03
+    end
+
+-- MoveCasket will be called over and over again
+Runtime:addEventListener("enterFrame", MovedareaText)
+
 
 -- The function called when the scene is issued to appear on screen
 function scene:show( event )
