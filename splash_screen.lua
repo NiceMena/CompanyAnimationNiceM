@@ -24,6 +24,7 @@ local scene = composer.newScene( sceneName )
 
 -- The local variables for this scene
 local companyLogo
+local areaText
 local scrollXSpeed = 6
 local scrollYSpeed = 1
 
@@ -35,8 +36,6 @@ local fazSounds
 -- background sound
 local fazSounds = audio.loadSound("Sounds/New Recording 3.mp3")
 local fazSoundsChannel
-fazSoundsChannel = audio.play(fazSounds) 
-
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -48,6 +47,15 @@ local function movecompanyLogo()
     companyLogo.y = companyLogo.y + scrollYSpeed
 end
 
+local function MainMenuTransition ()
+    -- Go to the intro screen
+    composer.gotoScene( "main_menu" )
+end 
+
+local function MovedareaText(event)
+      --add the scroll speed to the x-value of text
+      areaText.x = areaText.x + scrollSpeed
+end
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -69,32 +77,23 @@ function scene:create( event )
     companyLogo.x = 100
     companyLogo.y = display.contentHeight/2
 
+    --------------------------------------------------------------------------------------------
+    -- TEXT
+    --------------------------------------------------------------------------------------------
+    --Display phrase on the screen
+    areaText = display.newText("FAZ GAMES", 25, 30, Arial, textSize)
+    areaText.x = 300
+    areaText.y = 150
+    scrollSpeed = 5
+    --set the text color
+    areaText:setTextColor(65, 150, 175)
+
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( companyLogo)
+    sceneGroup:insert(companyLogo)
+    sceneGroup:insert(areaText)
 
 end -- function scene:create( event )
 
---------------------------------------------------------------------------------------------
--- TEXT
---------------------------------------------------------------------------------------------
---Display phrase on the screen
-areaText = display.newText("FAZ GAMES", 25, 30, Arial, textSize)
-areaText.x = 300
-areaText.y = 150
-scrollSpeed = 5
-textSize =
---set the text color
-areaText:setTextColor(65, 150, 175)
-
-local function MovedareaText(event)
-      --add the scroll speed to the x-value of text
-      areaText.x = areaText.x + scrollSpeed
-      -- change the transparency of the text every time it moves so that it fades in
-      areaText.alpha = areaText.alpha + 0.03
-    end
-
--- MoveCasket will be called over and over again
-Runtime:addEventListener("enterFrame", MovedareaText)
 
 
 -- The function called when the scene is issued to appear on screen
@@ -117,7 +116,13 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- start the splash screen music
         -- Call the company logo function as soon as we enter the frame.
+        -- Movetext will be called over and over again
+        Runtime:addEventListener("enterFrame", MovedareaText)
         Runtime:addEventListener("enterFrame", movecompanyLogo)
+
+        fazSoundsChannel = audio.play(fazSounds) 
+
+        timer.performWithDelay(3000, MainMenuTransition)
         
     end
 
@@ -143,6 +148,7 @@ function scene:hide( event )
 
     -- Called immediately after scene goes off screen.
     elseif ( phase == "did" ) then
+
         
     end
 
@@ -174,6 +180,5 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
------------------------------------------------------------------------------------------
 
 return scene
