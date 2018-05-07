@@ -61,7 +61,7 @@ function scene:create( event )
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth*3.7/8,
-            y = display.contentHeight*3.7/8,
+            y = display.contentHeight*4/5,
 
 
             -- Insert the images here
@@ -96,10 +96,9 @@ function scene:create( event )
     instructionsButton = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*3.7/8,
-            y = display.contentHeight*3.7/8,
-            width = 200
-            height = 100
+            x = display.contentWidth/8,
+            y = display.contentHeight*7/8,
+
 
             -- Insert the images here
             defaultFile = "Images/InstructionsButtonUnpressedNiceM.png",
